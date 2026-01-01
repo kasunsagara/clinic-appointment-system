@@ -16,3 +16,19 @@ export function createUser(req, res) {
         }
     )
 }
+
+export function getUsers(req, res) {
+    User.find().then(
+        (userList) => {
+            res.json({
+                list: userList
+            })
+        }
+    ).catch(
+        (error) => {
+            res.json({
+                message: error
+            })
+        }
+    )
+}

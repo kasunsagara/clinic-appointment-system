@@ -2,13 +2,16 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 import studentRouter from "./routers/studentRouter.js";
 import productRouter from "./routers/productRouter.js";
 import userRouter from "./routers/userRouter.js";
 
+dotenv.config();
+
 const app = express();
 
-const mongoUrl = "mongodb+srv://kasunsagara689:20010924@cluster0.iuoj1m7.mongodb.net/?appName=Cluster0";
+const mongoUrl = process.env.MONGO_DB_URI;
 
 mongoose.connect(mongoUrl, {})
 
@@ -25,7 +28,7 @@ app.use(
         const token = req.header("authorization")?.replace("Bearer ", "")
 
         if(token != null) {
-            jwt.verify(token, "cas-56649901", (error, decoded) => {
+            jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
 
                 if(!error) {
                     req.user = decoded

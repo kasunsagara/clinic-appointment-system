@@ -45,3 +45,24 @@ app.listen (
         console.log("Server is running on port 5000");
     }
 )
+
+
+/*
+admin
+{
+    "email": "1@gmail.com",
+    "password": "1111"
+}
+
+doctor
+{
+    "email": "2@hospital.com",
+    "password": "2222"
+}
+
+patient
+{
+    "email": "3@gmail.com",
+    "password": "3333"
+}
+*/    

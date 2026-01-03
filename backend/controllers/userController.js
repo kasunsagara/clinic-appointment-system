@@ -5,26 +5,99 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export function createUser(req, res) {
-    const newUserData = req.body
+export async function createUser(req, res) {
 
-    newUserData.password = bcrypt.hashSync(newUserData.password, 10)
+    const newUserData = req.body;
 
-    const user = new User(newUserData)
-    user.save().then(
-        () => {
+    if(newUserData.role == "admin") {
+
+        if(req.user == null) {
             res.json({
-                message: "User created"
+                message: "Please login as admin to create admin account"
             })
+            return
         }
-    ).catch(
-        () => {
+
+        if(req.user.role != "admin") {
             res.json({
-                message: "User not created"
+                message: "Please login as admin to create admin account"
             })
+            return
         }
-    )
+    }
+
+    if(newUserData.role == "doctor") {
+
+        if(req.user == null) {
+            res.json({
+                message: "Please login as admin to create doctor account"
+            })
+            return
+        }
+
+        if(req.user.role != "admin") {
+            res.json({
+                message: "Please login as admin to create doctor account"
+            })
+            return
+        }
+    }    
+
+    newUserData.password = bcrypt.hashSync(newUserData.password, 10);
+
+    const user = new User(newUserData);
+
+    try {
+        await user.save();
+
+        res.json({
+            message: "User created successfully"
+        })
+    } catch(error) {
+        res.json({
+            message: "Student not created"
+        })
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export function loginUser(req, res) {
     User.findOne({email: req.body.email}).then(

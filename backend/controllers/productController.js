@@ -1,87 +1,60 @@
 import Product from "../models/product.js";
 
-export function createProduct(req, res) {
-    if(req.user == null) {
+export async function createProduct(req, res) {
+    try {
+        const product = new Product(req.body)
+
+        await product.save()
+
         res.json({
-            message: "You ara not logged in"
+            message: "Product created"
         })
-        return
-    }
-
-    if(req.user.role != "admin") {
+    } catch(error) {
         res.json({
-            message: "You are not an admin"
+            message: "Not product created"
         })
-        return
     }
-
-    const product = new Product(req.body)
-    
-    product.save().then(
-        () => {
-            res.json({
-                message: "Product created"
-            })
-        }
-    ).catch(
-        () => {
-            res.json({
-                message: "Not product created"
-            })
-        }
-    )
 }
 
-export function getProducts(req, res) {
-    Product.find().then(
-        (productList) => {
-            res.json({
-                list: productList
-            })
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+export async function getProducts(req, res) {
+    try {
+        const productList = await Product.find()
+
+        res.json({
+            list: productList
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
 }
 
-export function getProductByName(req, res) {
-    Product.findOne({productName: req.params.productName}).then(
-        product => {
-            if(!product) {
-                res.json({
-                    message: "Product not found"
-                })
-            } else {
-                res.json({
-                    product: product
-                })                
-            }
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+export async function getProductByName(req, res) {
+    try {
+        const product = await Product.findOne({productName: req.params.productName})
+
+        res.json({
+            product: product
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
 }
 
-export function deleteProduct(req, res) {
-    Product.deleteOne({productName: req.params.productName}).then(
-        () => {
-            res.json({
-                message: "Product delete successfully"
-            })
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+export async function deleteProduct(req, res) {
+    try {
+        await Product.deleteOne({productName: req.params.productName})
+
+        res.json({
+            message: "Product deleted"
+        })
+    } catch(error) {
+        res.json({
+            message: "Not product deleted"
+        })
+    }
 }
+

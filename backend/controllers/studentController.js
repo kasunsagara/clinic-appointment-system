@@ -1,50 +1,100 @@
 import Student from "../models/student.js";
 
-export function createStudent(req, res) {
-    const student = new Student(req.body)
-    student.save().then(
-        () => {
-            res.json({
-                message: "Student create"
-            })
-        }
-    ).catch(
-        () => {
-            res.json({
-                message: "Student not created"
-            })
-        }
-    )
+export async function createStudent(req, res) {
+    try {
+        const student = new Student(req.body)
+
+        await student.save()
+
+        res.json({
+            message: "Student created"
+        })
+    } catch {
+        res.json({
+            message: "Not student created"
+        })
+    }
 }
 
-export function getStudents(req, res) {
-    Student.find().then(
-        (studentList) => {
-            res.json({
-                list: studentList
-            })
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+export async function getStudents(req, res) {
+    try {
+        const studentList = await Student.find()
+
+        res.json({
+            list: studentList
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
 }
 
-export function deleteStudent(req, res) {
-    Student.deleteOne({name: req.params.name}).then(
-        () => {
-            res.json({
-                message: "Student delete successfully"
-            })
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+export async function getStudentByName(req, res) {
+    try {
+        const student = await Student.findOne({name: req.params.name})
+
+        res.json({
+            student: student
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    } 
 }
+
+export async function deleteStudent(req, res) {
+    try {
+        await Student.deleteOne({name: req.params.name})
+
+        res.json({
+            message: "Student deleted"
+        })
+    } catch(error) {
+        res.json({
+            message: "Not student deleted"
+        })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

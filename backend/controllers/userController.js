@@ -114,7 +114,42 @@ export async function getUsers(req, res) {
     }
 }
 
+export async function getUserByEmail(req, res) {
 
+    try {
+        const user = await User.findOne({email: req.params.email});
+
+        res.json({
+            user: user
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
+}
+
+export async function deleteUser(req, res) {
+
+    if(req.user.role != "admin") {
+        res.json({
+            message: "Please login as admin to delete user"
+        })
+        return
+    }    
+
+    try {
+        await User.deleteOne({email: req.params.email});
+
+        res.json({
+            message: "User deleted successfully"
+        })
+    } catch(error) {
+        res.json({
+            message: "User not deleted"
+        })
+    }
+}
 
 
 

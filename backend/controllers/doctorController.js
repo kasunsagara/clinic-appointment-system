@@ -33,8 +33,15 @@ export async function createDoctor(req, res) {
 
 export async function getDoctors(req, res) {
 
+    if(req.user.role != "admin" && req.user.role != "patient") {
+        res.json({
+            message: "Access denied"
+        })
+        return
+    }
+
     try {
-        const doctorList = await Doctor.find();
+        const doctorList = await Doctor.find({isActive: true}).populate("userId", "name email phone");
 
         res.json({
             list: doctorList
@@ -45,6 +52,8 @@ export async function getDoctors(req, res) {
         })
     }
 }
+
+ 
 
 
 

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import userRouter from "./routers/userRouter.js";
+import doctorRouter from "./routers/doctorRouter.js";
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use(
 )
 
 app.use("/api/users", userRouter);
+app.use("/api/doctors", doctorRouter);
 
 app.listen (
     5000, 

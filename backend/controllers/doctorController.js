@@ -16,10 +16,10 @@ export async function createDoctor(req, res) {
         return
     }
 
-    const doctor = new Doctor(req.body);
+    const newDoctorData = new Doctor(req.body);
 
     try {
-        await doctor.save();
+        await newDoctorData.save();
 
         res.json({
             message: "Doctor created successfully"
@@ -30,4 +30,6 @@ export async function createDoctor(req, res) {
         })
     }
 }
+
+
 

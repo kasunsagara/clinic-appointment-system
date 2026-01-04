@@ -114,10 +114,10 @@ export async function getUsers(req, res) {
     }
 }
 
-export async function getUserByEmail(req, res) {
+export async function getUserById(req, res) {
 
     try {
-        const user = await User.findOne({email: req.params.email});
+        const user = await User.findOne({_id: req.params._id});
 
         res.json({
             user: user

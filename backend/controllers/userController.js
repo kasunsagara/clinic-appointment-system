@@ -139,7 +139,7 @@ export async function deleteUser(req, res) {
     }    
 
     try {
-        await User.deleteOne({email: req.params.email});
+        await User.deleteOne({_id: req.params._id});
 
         res.json({
             message: "User deleted successfully"

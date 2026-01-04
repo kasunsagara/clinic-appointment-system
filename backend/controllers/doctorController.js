@@ -31,5 +31,20 @@ export async function createDoctor(req, res) {
     }
 }
 
+export async function getDoctors(req, res) {
+
+    try {
+        const doctorList = await Doctor.find();
+
+        res.json({
+            list: doctorList
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
+}
+
 
 

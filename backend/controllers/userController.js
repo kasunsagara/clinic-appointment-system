@@ -92,57 +92,64 @@ export async function loginUser(req, res) {
     }
 }
 
+export async function getUsers(req, res) {
 
+    if(req.user.role != "admin") {
+        res.json({
+            message: "Please login as admin to view user details"
+        })
+        return
+    }
 
+    try {
+        const userList = await User.find();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export function getUsers(req, res) {
-    User.find().then(
-        (userList) => {
-            res.json({
-                list: userList
-            })
-        }
-    ).catch(
-        (error) => {
-            res.json({
-                message: error
-            })
-        }
-    )
+        res.json({
+            list: userList
+        })
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -55,7 +55,7 @@ export async function createUser(req, res) {
         })
     } catch(error) {
         res.json({
-            message: "Student not created"
+            message: "User not created"
         })
     }
 }

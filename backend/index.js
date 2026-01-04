@@ -23,13 +23,13 @@ app.use(bodyParser.json())
 
 app.use(
     (req, res, next) => {
-        const token = req.header("authorization")?.replace("Bearer ", "")
+        const token = req.header("authorization")?.replace("Bearer ", "");
 
         if(token != null) {
             jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
 
                 if(!error) {
-                    req.user = decoded
+                    req.user = decoded.user
                 }
             })
         }
@@ -56,7 +56,7 @@ admin
 
 doctor
 {
-    "email": "2@hospital.com",
+    "email": "2@gmail.com",
     "password": "2222"
 }
 

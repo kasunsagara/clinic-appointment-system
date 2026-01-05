@@ -45,3 +45,35 @@ export async function createAppointment(req, res) {
         })
     }
 }
+
+export async function getAppointments(req, res) {
+
+    if(req.user.role != "admin" && req.user.role != "patient") {
+        res.json({
+            message: "Access denied"
+        })
+        return
+    }
+
+    let appointmentList;
+
+    try {
+        if(req.user.role == "admin") {
+            appointmentList = await Appointment.find();
+
+            res.json({
+                list: appointmentList
+            })
+        } else {
+            appointmentList = await Appointment.find({patientId: req.user._id});
+
+            res.json({
+                list: appointmentList
+            })
+        } 
+    } catch(error) {
+        res.json({
+            error: error.message
+        })
+    }
+}

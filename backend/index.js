@@ -1,11 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
-import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import userRouter from "./routers/userRouter.js";
 import doctorRouter from "./routers/doctorRouter.js";
 import appointmentRouter from "./routers/appointmentRouter.js";
+import authMiddleware from "./middleware/authMiddleware.js";
 
 dotenv.config();
 
@@ -23,21 +23,7 @@ connection.once("open", () => {
 
 app.use(bodyParser.json())
 
-app.use(
-    (req, res, next) => {
-        const token = req.header("authorization")?.replace("Bearer ", "");
-
-        if(token != null) {
-            jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
-
-                if(!error) {
-                    req.user = decoded.user
-                }
-            })
-        }
-        next()
-    }
-)
+app.use(authMiddleware);
 
 app.use("/api/users", userRouter);
 app.use("/api/doctors", doctorRouter);

@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from 'react-router-dom';
 import { BsGraphUp, BsPeople, BsCalendar, BsPerson } from 'react-icons/bs'; 
+import ManageDoctorsPage from './admin/manageDoctorsPage';
 
 export default function AdminHomePage() {
     return (
@@ -37,7 +38,7 @@ export default function AdminHomePage() {
                 <Routes>
                     <Route path="/" element={<h1 className="text-3xl font-bold text-gray-700">Welcome to Admin Panel</h1>} />
                     <Route path="/dashboard" element={<h1 className="text-3xl font-bold text-gray-700">Admin Dashboard</h1>} />
-                    <Route path="/doctors" element={<h1 className="text-3xl font-bold text-gray-700">Manage Doctors</h1>} />
+                    <Route path="/doctors" element={<ManageDoctorsPage />} />
                     <Route path="/appointments" element={<h1 className="text-3xl font-bold text-gray-700">Manage Appointments</h1>} />
                     <Route path="/users" element={<h1 className="text-3xl font-bold text-gray-700">Manage Users</h1>} />
                     <Route path="/*" element={<h1 className="text-3xl font-bold text-red-500">Admin 404 error</h1>} />

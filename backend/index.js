@@ -16,13 +16,13 @@ app.use(cors());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
-mongoose.connect(mongoUrl, {})
-
-const connection = mongoose.connection;
-
-connection.once("open", () => {
+mongoose.connect(mongoUrl)
+  .then(() => {
     console.log("Database connected");
-})
+  })
+  .catch((error) => {
+    console.error("MongoDB connection error:", error.message);
+  });
 
 app.use(bodyParser.json())
 
@@ -43,19 +43,19 @@ app.listen (
 /*
 admin
 {
-    "email": "1@gmail.com",
+    "email": "1@example.com",
     "password": "1111"
 }
 
 patient
 {
-    "email": "2@gmail.com",
+    "email": "2@example.com",
     "password": "2222"
 }
 
 doctor
 {
-    "email": "3@gmail.com",
+    "email": "3@example.com",
     "password": "3333"
 }
 */    

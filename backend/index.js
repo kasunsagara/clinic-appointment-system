@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import userRouter from "./routers/userRouter.js";
 import doctorRouter from "./routers/doctorRouter.js";
 import appointmentRouter from "./routers/appointmentRouter.js";
@@ -10,6 +11,8 @@ import authMiddleware from "./middleware/authMiddleware.js";
 dotenv.config();
 
 const app = express();
+
+app.use(cors());
 
 const mongoUrl = process.env.MONGO_DB_URI;
 
